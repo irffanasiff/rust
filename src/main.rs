@@ -1,43 +1,38 @@
+//To obtain user input and then print the result as output, we need to bring the io input/output library into scope. The io library comes from the standard library, known as std:
+use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
+
 fn main() {
-    // unsigned integers
-    // u8, u16, u32, u64, u128
-    let unsigned: u8 = 10;
+    println!("guess the number!");
+    println!("please input your guess.");
 
-    // signed integers
-    // u8, u16, u32, u64, u128
-    let signed: i8 = -10;
+    /*
+     *  new is an associated function of the String
+     *  type. It returns a new String with the given
+     *   capacity.
+     */
+    let mut guess = String::new();
+    // line has created a mutable variable that is currently bound to a new, empty instance of a String
 
-    // float is used for decimals
-    let float: f64 = 10.5;
+    // we call the stdin method in the io module which will take users input and store it in the guess variable
+    io::stdin() // this can also be written as std::io::Stdin
+        .read_line(&mut guess) // The & indicates that this argument is a reference, which gives you a way to let multiple parts of your code access one piece of data without needing to copy that data into memory multiple times. This is known as borrowing.
+        // references are immutable by default. Hence, you need to write &mut guess rather than &guess to make it mutable
+        .expect("failed to read line");
 
-    println!(
-        "unsigned: {}, signed: {}, float: {}",
-        unsigned, signed, float
-    );
+    println!("you guessed: {}", guess);
+    println!("{}", random_number())
+    // match guess.cmp(random_number()) {
+    //     Ordering::Less => println!("Too small!"),
+    //     Ordering::Greater => println!("Too big!"),
+    //     Ordering::Equal => println!("You win!"),
+    // }
+}
 
-    // char can only be
-    let letter = "c3425";
-    let emoji = "\u{1F600}";
-
-    println!("letter: {}, emoji: {}", letter, emoji);
-
-    //boolean
-    let is_true: bool = true;
-    println!("is_true: {}", is_true);
-
-    // arrays
-    let arr: [i32; 6] = [10, 20, 30, 40, 50, 60];
-    let arr2: [i16; 5] = [100; 5];
-
-    println!("arr: {:?}, arr2: {:?}", arr, arr2);
-    println!("{}", arr2.len());
-
-    let tuple: (u8, bool, f32) = (10, true, 10.5);
-    let tuple2 = (3, 5);
-
-    println!("first {}, second{}, third {}", tuple.0, tuple.1, tuple.2);
-
-    let (a, b, c) = tuple;
-
-    println!("a: {}, b: {}, c: {}", a, b, c);
+fn random_number() {
+    let secret_number = rand::thread_rng().gen_range(1..101);
+    // The gen_range method takes a range expression as an argument and generates a random number in the range.
+    return secret_number;
+    //We use a match expression to decide what to do next based on which variant of Ordering was returned from the call to cmp with the values in guess and secret_number.
 }
